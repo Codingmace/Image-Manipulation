@@ -4,6 +4,7 @@ import os
 from PIL import Image
 import piexif
 
+# Author MasterWard
 
 # Try a Different File Formats
 # Prints cleaned and not number validly cleaned
