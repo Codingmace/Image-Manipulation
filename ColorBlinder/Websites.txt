@@ -1,0 +1,3 @@
+http://mkweb.bcgsc.ca/biovis2012/
+http://colororacle.org/design.html
+https://www.color-blindness.com/2007/03/13/color-translation-readable-diagrams-for-the-colorblind/

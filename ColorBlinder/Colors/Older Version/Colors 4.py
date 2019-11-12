@@ -57,8 +57,23 @@ def match(a,b):
     ip = ((R3) * 52 * 52)+ ((G3) * 52) + B3 
 #    ip = (R3 * 65536 /125) + (G2 * 256 / 5) + B3
     ip = int(ip)
+  #  print(len(b))
+#    print(int(b[ip][3]))
+#    print(int(b[ip][4]))
+#    print(int(b[ip][5]))
     return (int(b[ip][3]), int(b[ip][4]),int(b[ip][5]))
+  
+def tester():
+    iq = 0
+    for r in range(0,255):
+        for g in range(0,255):
+            for b in range(0,255):
+                iq = (int(r/5) * 51 * 51)
+                iq += int(g/5) * 52
+                iq += int(b/5)
+                print(iq)
 
+            print(r)
 
 def main():
     stdirs = "C:\\Users\\School\\Desktop\\Testers" # Starting Directory
@@ -76,6 +91,9 @@ def main():
     print(len(ar))
     phcount = 0 # Photo Count
     cons = 0;
+    
+#    tester()
+
 
     # Reading in the chart conversions
     types = 3 # Normal, Protanopia, Deutanopia, Tritanoptia
@@ -104,8 +122,6 @@ def main():
     # and phcount < 2
     while (phcount < len(ar)):
         print(ar[phcount])
-#        print(ar[phcount].index("."))
-        newname = stdirs + "\\thats\\" + ar[phcount][:(ar[phcount].index("."))] + ".jpg"
         photo = Image.open(stdirs + "\\" + ar[phcount])  #your image
         photo = photo.convert('RGB')
         width = photo.size[0] # define W and H
@@ -114,9 +130,9 @@ def main():
         pixels = img.load() # Creates pixel map
 
 
-        for y in range(0, 100): #each pixel has coordinates
+        for y in range(0, height): #each pixel has coordinates
             row = ""
-            for x in range(0, 100): # Width
+            for x in range(0, width): # Width
                 RGB = photo.getpixel((x,y))
                 R,G,B = RGB
                 # Finding the Opposing one
@@ -125,7 +141,7 @@ def main():
             #    print(RGB2)
                 pixels[x,y] = RGB2
 
-        phcount += x
-        img.save(newname)
-#        img.save(stdirs + "\\thats\\" + str(phcount) + ".jpg")
+        phcount += 1
+        
+        img.save(stdirs + "\\thats\\" + str(phcount) + ".jpg")
 main()
