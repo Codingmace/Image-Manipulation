@@ -1,3 +1,4 @@
+# Author MasterWard
 from Old import *
 from datetime import datetime
 from send2trash import send2trash
