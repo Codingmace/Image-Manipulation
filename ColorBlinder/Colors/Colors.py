@@ -2,6 +2,10 @@
 from datetime import datetime
 from os import listdir, path 
 from PIL import Image, ImageDraw
+import numpy as np
+
+# IDEAS
+# USing a pallett?
 
 
 f = open("Colorblind Table.txt") # Filling Database
@@ -12,6 +16,7 @@ def readline():
         s = f.readline().strip()
     return s
 
+# Note to use a switch statement
 def match(a,b):
     R1 = a[0]
     G1 = a[1]
@@ -113,6 +118,8 @@ def main():
         height = photo.size[1]
         img = Image.new('RGB', (width, height), "black") # Create black image
         pixels = img.load() # Creates pixel map
+        #im = Image.open('hopper.jpg')
+        a = np.asarray(photo)
 
 
         for y in range(0, 100): #each pixel has coordinates
