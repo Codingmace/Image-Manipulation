@@ -1,3 +1,4 @@
+# Author MasterWard
 from datetime import datetime
 from os import listdir, path 
 from PIL import Image, ImageDraw
