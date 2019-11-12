@@ -1,15 +1,9 @@
 from datetime import datetime
-from os import listdir
-# import os
-# from walkpath import path
-#import image
-# import Image
+from os import listdir, path 
+from PIL import Image, ImageDraw
 
-# Imports all the images
-# Using a 100% Check checking every pixel
 
-file = open("testfile.txt", "w")
-f = open("Table.txt") # Filling Database
+f = open("Colorblind Table.txt") # Filling Database
 
 def readline():
     s = f.readline().strip()
@@ -17,86 +11,136 @@ def readline():
         s = f.readline().strip()
     return s
 
+def match(a,b):
+    R1 = a[0]
+    G1 = a[1]
+    B1 = a[2]
+    R2 = R1 % 5
+    G2 = G1 % 5
+    B2 = B1 % 5
+    R3 = 0
+    G3 = 0
+    B3 = 0
+    if(R2 == 0):
+        R3 = R1
+    elif (R2 == 1):
+        R3 = R1 - 1
+    elif (R2 == 2):
+        R3 = R1 - 2
+    elif (R2 == 3):
+        R3 = R1 + 2
+    elif (R2 == 4):
+        R3 = R1 + 1
+    if(B2 == 0):
+        B3 = B1
+    elif (B2 == 1):
+        B3 = B1 - 1
+    elif (B2 == 2):
+        B3 = B1 - 2
+    elif (B2 == 3):
+        B3 = B1 + 2
+    elif (B2 == 4):
+        B3 = B1 + 1
+    if(G2 == 0):
+        G3 = G1
+    elif (G2 == 1):
+        G3 = G1 - 1
+    elif (G2 == 2):
+        G3 = G1 - 2
+    elif (G2 == 3):
+        G3 = G1 + 2
+    elif (G2 == 4):
+        G3 = G1 + 1
+    R3 /=5
+    G3/=5
+    B3/=5
+    ip = ((R3) * 52 * 52)+ ((G3) * 52) + B3 
+#    ip = (R3 * 65536 /125) + (G2 * 256 / 5) + B3
+    ip = int(ip)
+  #  print(len(b))
+#    print(int(b[ip][3]))
+#    print(int(b[ip][4]))
+#    print(int(b[ip][5]))
+    return (int(b[ip][3]), int(b[ip][4]),int(b[ip][5]))
+  
+def tester():
+    iq = 0
+    for r in range(0,255):
+        for g in range(0,255):
+            for b in range(0,255):
+                iq = (int(r/5) * 51 * 51)
+                iq += int(g/5) * 52
+                iq += int(b/5)
+                print(iq)
+
+            print(r)
+
 def main():
-    ar = listdir("C:\\Users\\School\\Desktop\\Testers")
+    stdirs = "C:\\Users\\School\\Desktop\\Testers" # Starting Directory
+    ar = listdir(stdirs)
+    for i in range(len(ar)):
+        if(i >= len(ar)):
+            break
+        if("jpeg" in ar[i] or "png" in ar[i] or "jpg" in ar[i] or "JPG" in ar[i] or "PNG" in ar[i] or "JPEG" in ar[i]):
+            print(ar[i] + " works")
+        else:
+            ar[i] = ""
+            ar.remove("")
+    print(ar)
     print(datetime.now().time())
     print(len(ar))
-    x = 0
+    phcount = 0 # Photo Count
     cons = 0;
     
+#    tester()
+
+
     # Reading in the chart conversions
-    types = 4 # Normal, Protanopia, Deutanopia, Tritanoptia
-    normrgb = [] # Normal RGB
-    normhex = [] # Normal Hex
-    protrgb = [] # Protanopia RGB
-    prothex = [] # Protanopia Hex
-    deutrgb = [] # Deutanopia RGB
-    deuthex = [] # Deutanopia Hex
-    tritrgb = [] # Tritanoptia RGB
-    trithex = [] # Tritanoptia Hex
-    s = readline() #TABLE 1
-    s = readline()
-#    print("1 " +s)
-#    print("2 " +f.readline().strip())
-#    print("3 " +f.readline())
-    con = 0 # Counter for arrays
-    conh = 0 # Counter for hex
-    while("Table" not in s):
-        s = s.strip()
-        print(s)
-        if(s == "table"): # Use to be blank Line 
-            print("IGNORED")
+    types = 3 # Normal, Protanopia, Deutanopia, Tritanoptia
+    deut = [] # deuteranopia
+    prot = [] # protanopia
+    trit = [] # tritanopia
+    s = f.readline() # Comments
+    s = f.readline()
+    while(not (s == "")):
+        asp = s.strip().split(" ")
+        type = asp[0] # What it is
+        if(type == "deuteranopia"):
+            asp.remove("deuteranopia")
+            deut.append(asp)
+        elif (type == "protanopia"):
+            asp.remove("protanopia")
+            prot.append(asp)
+        elif (type == "tritanopia"):
+            asp.remove("tritanopia")
+            trit.append(asp)
         else:
-           # s = f.readline()
-            atmp = s.split(" ")
-            if (len(atmp) == 3):
-                normrgb.append(int(atmp[0]))
-                normrgb.append(int(atmp[1]))
-                normrgb.append(int(atmp[2]))
-                
-                s = readline()
-                atmp = s.split(" ")
-                protrgb.append(int(atmp[0]))
-                protrgb.append(int(atmp[1]))
-                protrgb.append(int(atmp[2]))
-
-                s = readline()
-                atmp = s.split(" ")
-                deutrgb.append(int(atmp[0]))
-                deutrgb.append(int(atmp[1]))
-                deutrgb.append(int(atmp[2]))              
-            
-                s = readline()
-                atmp = s.split(" ")
-                tritrgb.append(int(atmp[0]))
-                tritrgb.append(int(atmp[1]))
-                tritrgb.append(int(atmp[2]))
-                con += 3
-                s = readline()
-            elif ("#" in s):
-                normhex.append(s)
-                s = readline()
-                prothex.append(s)
-                s = readline()
-                deuthex.append(s)
-                s = readline()
-                trithex.append(s)
-                s = readline()
-            else:
-                s = readline()
-
-#            print(len(atmp));
-           # break
-#    print(len(normr))
+            #That didn't work apparently
+            print(type + " Doesn't exist yet")
+        s = f.readline().strip()
     # Reading the file names
-    print("MADE IT HERE")
-    while (x < len(ar)):
-        print(ar[x])
+    # and phcount < 2
+    while (phcount < len(ar)):
+        print(ar[phcount])
+        photo = Image.open(stdirs + "\\" + ar[phcount])  #your image
+        photo = photo.convert('RGB')
+        width = photo.size[0] # define W and H
+        height = photo.size[1]
+        img = Image.new('RGB', (width, height), "black") # Create black image
+        pixels = img.load() # Creates pixel map
 
-        
-        # Testing to see what type they are going to do
-        # Reading and creating new image (OPTIONAL TO MERGE THEM TOGETHER)
-        # Print out and move to the next image
-        x += 1
-        
+
+        for y in range(0, height): #each pixel has coordinates
+            row = ""
+            for x in range(0, width): # Width
+                RGB = photo.getpixel((x,y))
+                R,G,B = RGB
+                # Finding the Opposing one
+                RGB2 = match([R,G,B], deut)
+
+            #    print(RGB2)
+                pixels[x,y] = RGB2
+
+        phcount += 1
+        img.save(stdirs + "\\thats\\" + str(phcount) + ".jpg")
 main()
