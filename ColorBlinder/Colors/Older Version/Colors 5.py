@@ -1,5 +1,4 @@
 # Author MasterWard
-
 from datetime import datetime
 from os import listdir, path 
 from PIL import Image, ImageDraw
@@ -7,6 +6,7 @@ from PIL import Image, ImageDraw
 
 # IDEAS
 # USing a pallett?
+
 
 f = open("Colorblind Table.txt") # Filling Database
 
@@ -61,6 +61,7 @@ def match(a,b):
     G3/=5
     B3/=5
     ip = ((R3) * 52 * 52)+ ((G3) * 52) + B3 
+#    ip = (R3 * 65536 /125) + (G2 * 256 / 5) + B3
     ip = int(ip)
     return (int(b[ip][3]), int(b[ip][4]),int(b[ip][5]))
 
@@ -102,13 +103,16 @@ def main():
             asp.remove("tritanopia")
             trit.append(asp)
         else:
-            # That didn't work apparently
+            #That didn't work apparently
             print(type + " Doesn't exist yet")
         s = f.readline().strip()
     # Reading the file names
-    while (phcount < len(ar)):
-    #    while(phcount < 4):
+    # and phcount < 2
+#    while (phcount < len(ar)):
+    while(phcount < 4):
         print(ar[phcount])
+#        print(ar[phcount].index("."))
+#        newname = stdirs + "\\thats\\" + ar[phcount][:(ar[phcount].index("."))] + "t.jpg"
         newname = stdirs + "\\thats\\" + ar[phcount][:(ar[phcount].index("."))]
         photo = Image.open(stdirs + "\\" + ar[phcount])  #your image
         photo = photo.convert('RGB')
@@ -125,7 +129,10 @@ def main():
             for x in range(0, width): # Width
                 RGB = photo.getpixel((x,y))
                 R,G,B = RGB
+                # Finding the Opposing one
                 RGB2 = match([R,G,B], deut)
+#                RGB2 = match([R,G,B], prot)
+            #    print(RGB2)
                 pixels[x,y] = RGB2
 
 #        phcount += 1
@@ -140,7 +147,10 @@ def main():
             for x in range(0, width): # Width
                 RGB = photo.getpixel((x,y))
                 R,G,B = RGB
+                # Finding the Opposing one
+#                RGB2 = match([R,G,B], deut)
                 RGB2 = match([R,G,B], prot)
+            #    print(RGB2)
                 pixels[x,y] = RGB2
 
 #        phcount += 1
@@ -155,7 +165,10 @@ def main():
             for x in range(0, width): # Width
                 RGB = photo.getpixel((x,y))
                 R,G,B = RGB
-                RGB2 = match([R,G,B], trit)
+                # Finding the Opposing one
+#                RGB2 = match([R,G,B], deut)
+                RGB2 = match([R,G,B], prot)
+            #    print(RGB2)
                 pixels[x,y] = RGB2
 
         phcount += 1
@@ -164,5 +177,5 @@ def main():
 
         
         print(datetime.now().time())
-
+#        img.save(stdirs + "\\thats\\" + str(phcount) + ".jpg")
 main()
