@@ -128,11 +128,41 @@ def main():
                 RGB2 = match([R,G,B], deut)
                 pixels[x,y] = RGB2
 
-        phcount += 1
+#        phcount += 1
         img.save(newname + "d.jpg")
         pixels = img.load() 
 
         print(datetime.now().time())
+
+        # prot
+        for y in range(0, height): #each pixel has coordinates
+            row = ""
+            for x in range(0, width): # Width
+                RGB = photo.getpixel((x,y))
+                R,G,B = RGB
+                RGB2 = match([R,G,B], prot)
+                pixels[x,y] = RGB2
+
+#        phcount += 1
+        img.save(newname+"p.jpg")
+        pixels = img.load() 
         
+        print(datetime.now().time())
+
+        # Trit
+        for y in range(0, height): #each pixel has coordinates
+            row = ""
+            for x in range(0, width): # Width
+                RGB = photo.getpixel((x,y))
+                R,G,B = RGB
+                RGB2 = match([R,G,B], trit)
+                pixels[x,y] = RGB2
+
+        phcount += 1
+        img.save(newname + "t.jpg")
+        img.close()
+
+        
+        print(datetime.now().time())
 
 main()
